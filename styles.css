@@ -1,0 +1,13 @@
+/* 
+    Document   : styles
+    Created on : Feb 11, 2012, 4:35:46 PM
+    Author     : sudhanshu
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.block_fn_coursemanagerr .content{
+    background: orange !important;
+    padding:0.25em !important; 
+    margin-top:0em !important;
+    
+}
