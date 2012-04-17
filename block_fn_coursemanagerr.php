@@ -57,7 +57,7 @@ class block_fn_coursemanagerr extends block_base {
             //hide all section of setting except general section  when edit content tab is selected
             $jsmodule = array(
                 'name' => 'M.block_fncoursemanagers_Show_Edit_Content',
-                'fullpath' => '/blocks/fn_coursemanager/show_only_general_section.js',
+                'fullpath' => '/blocks/fn_coursemanagerr/show_only_general_section.js',
                 'requires' => array('base', 'node')
             );
             $jsdata1 = array(
