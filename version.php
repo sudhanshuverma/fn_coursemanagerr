@@ -25,6 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2011112900;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2011112900;        // Requires this Moodle version
+$plugin->version = 2011120501;
 
+$plugin->component  = 'block_fn_coursemanagerr';
+$plugin->release    = '2.0.1';
+$plugin->requires   = 2010112400; // Moodle 2.0
+$plugin->maturity   = MATURITY_STABLE;
