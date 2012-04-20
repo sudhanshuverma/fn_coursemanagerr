@@ -13,7 +13,7 @@ $string['namefntabs'] = "FN Week";
 
 $string['allweeks'] = "All Weeks";
 $string['alltopics'] = "All Topics";
-$string['allfntabs'] = "All FN Weeks";
+$string['allfntabs'] = "All Weeks";
 
 $string['defaulttopicheading'] = "Week";
 
@@ -21,12 +21,6 @@ $string['pluginname'] = "FN Course Manager";
 $string['nametopics'] = "Topic";
 $string['nameweeks'] = "Week";
 $string['namefntabs'] = "FN Week";
-
-
-
-$string['allweeks'] = "All Weeks";
-$string['alltopics'] = "All Topics";
-$string['allfntabs'] = "All FN Weeks";
 
 $string['defaulttopicheading'] = "Week";
 

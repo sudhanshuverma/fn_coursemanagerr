@@ -67,14 +67,15 @@ class block_fn_coursemanagerr extends block_base {
         }
 
         $this->content = new stdClass();
-        $this->content->text = $this->build_activity_tree(); //$this->build_menu();
+        $this->content->text = $this->build_activity_tree();
         $this->content->footer = '';
 
         return $this->content;
     }
 
     function build_activity_tree() {
-        global $CFG, $COURSE, $SESSION, $DB;
+        
+        global $CFG, $COURSE, $SESSION, $DB, $OUTPUT;
         require_once($CFG->dirroot . "/course/lib.php");
         $default_tab = optional_param('setdefaulttab', '0', PARAM_TEXT);
         if ($default_tab) {
@@ -153,14 +154,14 @@ class block_fn_coursemanagerr extends block_base {
                         if (!empty($section)) {
                             if (!empty($section->name)) {
                                 $strsummary = trim($section->name);
-                                $strsummary = $this->fn_truncate_description($strsummary, 12);
+                                $strsummary = $this->fn_truncate_description($strsummary, 18);
                             } else {
                                 if ($COURSE->format == 'fntabs') {
                                     $fnsectionname = $DB->get_field('course_config_fn', 'value', array('courseid' => $COURSE->id, 'variable' => 'topicheading'));
                                     if ($fnsectionname) {
                                         $strsummary = ucwords($fnsectionname) . " " . $k; // name that is set in the database
                                     } else {
-                                        $strsummary = ucwords(get_string('defaulttopicheading', 'block_fn_coursemanager')) . " " . $k; // name that is set in the database
+                                        $strsummary = ucwords(get_string('defaulttopicheading', 'block_fn_coursemanagerr')) . " " . $k; // name that is set in the database
                                     }
                                 } else {
                                     $strsummary = ucwords($genericName) . " " . $k; // just a default name
@@ -186,11 +187,17 @@ class block_fn_coursemanagerr extends block_base {
                                         $count++;
                                         if (!($url = $cm->get_url())) {
                                             $linkcss = $cm->visible ? '' : 'dimmed';                                           
-                                            $icon = $cm->modname . ".gif";
+                                            $icon = $OUTPUT->pix_url("icon", $cm->modname);
+                                             if (is_object($icon)) {
+                                                    $iconurl = $icon->__toString();
+                                                } else {
+                                                    $iconurl = $icon;
+                                             }
+                                            
                                             $output .= "
-                                                var iconname = '$icon';
+                                                var iconname = '$iconurl';
                                                 var activitynodeid = 'activity'+$cm->id;
-                                                d.add(activitynodeid, sectionnodeid, '$content', '','' ,'','$icon');";
+                                                d.add(activitynodeid, sectionnodeid, '$content', '','' ,'', iconname);";
                                         } else {
                                             $linkcss = $cm->visible ? '' : 'dimmed';
                                             $sesskey = sesskey();
@@ -208,17 +215,22 @@ class block_fn_coursemanagerr extends block_base {
                                                 $modurl = "$CFG->wwwroot/course/mod.php?update=$cm->id&sesskey=$sesskey";
                                             }
                                             $modurl = $modurl;
-                                            $truncated_name = $this->fn_truncate_description($instancename, 12);
-                                            $title = htmlspecialchars($instancename, ENT_QUOTES);
-                                            $icon = $cm->modname . ".gif";
+                                            $truncated_name = $this->fn_truncate_description($instancename, 16);
+                                            $title = htmlspecialchars($instancename, ENT_QUOTES);                                       
+                                            $icon = $OUTPUT->pix_url("icon", $cm->modname);
+                                             if (is_object($icon)) {
+                                                    $iconurl = $icon->__toString();
+                                                } else {
+                                                    $iconurl = $icon;
+                                             }
                                             $output .= "
-                                                var iconname = '$icon'; 
+                                                var iconname = '$iconurl'; 
                                                 var titlename = '$title';
-                                                var activitynodeid = 'activity'+$cm->id;
+                                                var activitynodeid = 'activity'+'$cm->id';                                                    
                                                 var activityinstancename = '$truncated_name';
                                                 var activityurl =  '$modurl';
                                                 var cls = '$linkcss';
-                                                d.add(activitynodeid, sectionnodeid, activityinstancename, activityurl, titlename ,'', albumTree_images + iconname, '', '', cls);";
+                                                d.add(activitynodeid, sectionnodeid, activityinstancename, activityurl, titlename ,'', iconname, '', '', cls);";
                                         }
                                     }
                                 }
@@ -226,23 +238,21 @@ class block_fn_coursemanagerr extends block_base {
                                     $text = 'No activities';
                                     $htmlid = 'fn_coursemanagerr_' . uniqid();
                                     $output .= "
-                                               var iconname = ''; 
+                                                var iconname = 'empty1.gif'; 
                                                 var titlename = '$text';
                                                 var activitynodeid = '$htmlid';
-                                                var activityinstancename = '$text';
-                                                var activityurl =  '$modurl';
+                                                var activityinstancename = '$text';                                               
                                                 d.add(activitynodeid, sectionnodeid, activityinstancename, '', titlename ,'', albumTree_images + iconname);";
                                 }
                             } else {
-                                $text = 'No activities';                                
+                                $text = 'No activities';                                 
                                 $htmlid = 'fn_coursemanagerr_' . uniqid();
                                     $output .= "                                              
-                                                var iconname = ''; 
+                                                var iconname = 'empty1.gif'; 
                                                 var titlename = '$text';
                                                 var activitynodeid = '$htmlid';
-                                                var activityinstancename = '$text';
-                                                var activityurl =  '$modurl';
-                                                d.add(activitynodeid, sectionnodeid, activityinstancename, '', titlename ,'', albumTree_images + iconname);";
+                                                var activityinstancename = '$text';                                               
+                                                d.add(activitynodeid, sectionnodeid, activityinstancename, '', titlename ,'',albumTree_images + iconname);";
                             }
                         }
                     }
